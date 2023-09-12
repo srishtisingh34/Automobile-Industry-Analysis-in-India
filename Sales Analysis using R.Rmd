@@ -1,0 +1,823 @@
+<P> 
+<BR> 
+<B>
+<CENTER>
+<FONT size=5, color="blue">
+<B> ALY6000 Introduction to Analytics </B> 
+<BR>
+Northeastern University
+<BR> </B>
+Srishti Singh
+<BR>
+Date : 29 OCT,2022
+<BR>
+<B>Final Project Report</B>
+<BR>
+Instructor : Dr. Dee Chiluiza, PhD </FONT>
+
+</CENTER>
+<P>
+<BR>
+
+```{r library Data, message=FALSE, warning= FALSE}
+#Libraries
+library(readxl)
+library(rmarkdown)
+library(tidyverse)
+library(dplyr)
+library(magrittr)
+library(knitr)
+library(kableExtra)
+library("ggplot2")
+library(RColorBrewer)
+
+#Importing Dataset
+Project6Data <- read_excel("DataSets/Project6Data-1-1-1.xlsx")
+```
+
+<BR>
+<P style="font-family:Serif ">>
+<FONT size=5, color="Maroon">
+<B>INTRODUCTION</B>
+</FONT>
+
+<P style="font-family:Serif ">
+</Font>
+
+<b> <FONT color="Red"> Data Analytics </Font> </B> <br>
+"To conjecture before one has facts is a grave error. Unconsciously, one starts to change the facts to fit hypotheses rather than the other way around " by Sir Arthur Conan Doyle (From book Sherlock Holmes).The foundation of data analysis is this concept. Being able to interpret the information provides us the ability to make informed decisions. Additionally, we currently live in a time where we have more access to data than ever before.
+
+Businesses are becoming more acquainted with the advantages of data leveraging i,e, extraction od data to derive results . A Finance corporation may use data analysis to reduce the risk and credits, a health care system can use it to forecast future health requirements, and a bank can use it to tailor customer interactions.
+The World Economic Forum Future of Jobs Report 2020 listed data analysts and scientists as the top emerging job, followed immediately by AI and machine learning specialists, and big data specialists In this report, I am doing an analysis on the Sales Data set for different products belong to different market and sold to different customers  of different countries. 
+ref-https://www.imf.org/en/Publications/fandd/issues/2020/12/WEF-future-of-jobs-report-2020-zahidi
+
+<B> <FONT color="Red"> Big Data Analytics application in Supply Chain Logistics Industry.</Font> </B> <br>
+The usage of big data is increasing, and this might have an impact on a variety of shipping methods in logistics.
+
+Logistics analytics is one of the areas of business that big data is transforming. Logistics is a fantastic use case for big data due to its complexity, dynamic nature, and reliance on several moving pieces that might cause bottlenecks at any point in the supply chain. To the advantage of both logistics and shipping firms, big data logistics may be utilized, for instance, to improve routing, expedite manufacturing operations, and provide transparency to the whole supply chain.
+
+Applications: <br>
+1. Conventional business information from operational systems. <br>
+2. Data about traffic and the weather collected by sensors, monitors, and forecasting systems. <br>
+3. Information on the location, driving habits, and diagnostics of the vehicle.<br>
+4. Company financial predictions.<br>
+5. Statistics on the impact of advertising. <br>
+
+For example: 
+Logistics firms have an advantage over competitors thanks to big data and predictive analytics. Delivery truck sensors, weather information, road maintenance information, fleet maintenance plans, real-time fleet status indicators, and employee schedules may all be connected into a system that analyzes previous trends and makes recommendations in line with them.
+
+A practical example of how big data logistics may result in significant savings is UPS. UPS discovered after looking at their data that trucks turning left were losing them a lot of money. To put it another way, UPS discovered that turning into oncoming traffic resulted in significant delays, fuel loss, and safety risks.ref: [1]
+
+</P>
+
+<b> <FONT color="Red"> Data set description: </font>  </b> <br> 
+<P>
+I am analyzing the logistics data in this report, which contained various items from various markets that were sold to various clients from various nations. The goods are all related to office supplies, Technology and Furniture . The dataset also includes several numerical variables and category categories.
+</P>
+
+<B> <FONT color="Red"> Problem Statement: </Font> </B>  <br>
+
+<P> Any firm may benefit from insights and reporting tools to achieve data-driven sales success, but many global, market-leading companies are already leveraging their sales data in inventive ways to make better business decisions.
+
+The idea of sorting through the many sales indicators available to make sense of the data, however, may be intimidating. Once you have the information, another problem is figuring out what to do with it.
+
+This report explains how data-driven sales may help  business meet its unique objectives and goals.
+
+</P>
+
+<b> <FONT color="Red"> Plan: </Font> </b> <br>
+<P>
+
+To show the data driven insights, I am using R Programming language in order to do statitiscal analysis on numerical and later visualize them in order to show their relationship with categorical variables.
+
+
+</P>
+<BR>
+
+<P>
+<FONT size=3, color="829750">
+<B>ANALYSIS SECTION</B>
+</FONT>
+<P>
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Task 1:</B> </FONT> <B> <FONT size=3, color="476109">
+<BR> Presenting the basic descriptive statistics of five numerical variables which includes Sales_Total, LossPerReturn, Total_Loss, Net Sales and Profits </Font>
+</P>
+
+```{r}
+#Task 1:
+
+#Statistical analysis for numerical variable 
+meanSales= mean(Project6Data$Sales_Total)
+meanLPR= mean(Project6Data$LossPerReturn)
+meanTL = mean(Project6Data$Total_loss)
+meanNS = mean(Project6Data$Net_Sale)
+meanProf = mean(Project6Data$Profits)
+medianSales= median(Project6Data$Sales_Total)
+medianLPR= median(Project6Data$LossPerReturn)
+medianTL = median(Project6Data$Total_loss)
+medianNS = median(Project6Data$Net_Sale)
+medianProf = median(Project6Data$Profits)
+sdSales= sd(Project6Data$Sales_Total)
+sdLPR= sd(Project6Data$LossPerReturn)
+sdTL = sd(Project6Data$Total_loss)
+sdNS = sd(Project6Data$Net_Sale)
+sdProf = sd(Project6Data$Profits)
+MinSales= min(Project6Data$Sales_Total)
+MinLPR= min(Project6Data$LossPerReturn)
+MinTL = min(Project6Data$Total_loss)
+MinNS =  min(Project6Data$Net_Sale)
+MinProf = min(Project6Data$Profits)
+MaxSales= max(Project6Data$Sales_Total)
+MaxLPR= max(Project6Data$LossPerReturn)
+MaxTL = max(Project6Data$Total_loss)
+MaxNS =  max(Project6Data$Net_Sale)
+MaxProf = max(Project6Data$Profits)
+RangeSales=  MaxSales - MinSales
+RangeLPR= MaxLPR - MinSales
+RangeTL = MaxTL - MinTL
+RangeNS =  MaxNS - MinNS
+RangeProf = MaxProf - MinProf
+
+#Creating vectors
+vector_Sales = c(meanSales, medianSales, RangeSales, sdSales)
+vector_LPR = c(meanLPR, medianLPR, RangeLPR, sdLPR)
+vector_TL = c( meanTL, medianTL, RangeTL, sdTL)
+vector_NS = c(meanNS, medianNS, RangeNS, sdNS )
+vector_Profits = c(meanProf, medianProf, RangeProf, sdProf )
+column = c("Mean", "Median","Range","Std Dev")
+rownum = c("Total Sales","Loss Per Return", "Total Loss", "Net Sales", "Profits")
+
+#Creating Tables out of those 5 numerical variables and their stats 
+Table6 = matrix(c(vector_Sales,vector_LPR,vector_TL,vector_NS, vector_Profits), nrow = 5, byrow = TRUE, ncol = 4)
+
+colnames(Table6) = column
+rownames(Table6) = rownum
+
+#Printing final Table
+Table6 %>%
+  kbl(caption = "Presenting the Statistical Table for 5 numerical variables from the dataset", font_size = 10, position ='center', digits = 2) %>%
+  
+  kable_material_dark(full_width = F, html_font = "Georgia", font_size = 8)
+  
+ 
+```
+
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT>
+<Br>
+While using functions matrix(), I created the table for 5 numerical fields. As we can see <B> Total Sales </B>  has the highest mean, median, Range and Std Dev whereas <B> Loss per return </B> has the lowest number in all the statistical category. Similar to that, I got to witness how several methods in the Kable Extra Library were implemented. Since we are extracting a sample of the Data, inferential statistics might be performed using these methods.
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Task 2:</B> </FONT> <B><FONT size=3, color="476109">Presenting Box plots and histograms of selected numerical variables from the dataset </Font></B> </P>
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 2.1:</B> </FONT> <B> <FONT size=3, color="Red">
+Total Sales Distribution using Boxplot and Histogram
+</FONT> </P> </B> 
+
+```{r, warning=FALSE}
+#Task 2.1 
+
+par(mfcol = c(1,2), mai=c(1,1,0.5,1))
+#Total Sales Boxplot representing 
+boxplot(Project6Data$Sales_Total,
+        main="Box Plot representating Total Sales",
+        ylim= c(0,30000), col = "orange")
+points(meanSales, col="red")
+points(medianSales, col="green")
+
+
+
+#histogram
+hist(Project6Data$Sales_Total,
+     main="Histogram representing Total Sales",
+     xlab="Total Sales",
+     border="black",
+     col= brewer.pal(5,name="Pastel1"),
+          ylim=c(0,500),
+     xlim=c(0,20000),
+     las=1,breaks=30)
+
+abline(v = meanSales, col = "red", lwd = 2)
+abline(v = medianSales, col = "green", lwd = 2)
+
+```
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT></B>
+
+As we can see from the boxplot, Total Sales is mostly distributed from range 0 to 30000 and it consists of multiple data point(outliers) that is located outside the fences (“whiskers”) of the boxplot. From the histogram, we can infer that the mean and median ranges from $2000 to $4000 hence the average Total sales made by the company is considerable higher than the losses. We can deduce that the company is selling it's product in profit so far. Ref: <B> <I> The R Graph Galley </I> https://r-graph-gallery.com/38-rcolorbrewers-palettes.html </B>
+</P>
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 2.2:</B> </FONT> <B> <FONT size=3.2, color="Red">
+Loss Per Return representation using Boxplot and Histogram
+</FONT>  </B></P> 
+
+```{r}
+#Task 2.2
+
+par(mfcol = c(1,2),mai=c(1,1,0.5,1)) 
+#Loss per Return Boxplot
+boxplot(Project6Data$LossPerReturn,
+        main="Loss per Return representation",
+        ylim= c(0,4000), col ="yellow")
+points(meanLPR, col="red")
+points(medianLPR, col="green")
+
+
+
+#histogram showing loss per return
+hist(Project6Data$LossPerReturn,
+     main="Histogram of Loss Per Return",
+     xlab="Loss Per Return",
+     border="black",
+     col= brewer.pal(5,name="Pastel2"),
+          ylim=c(0,400),
+     xlim=c(0,3500),
+     las=1,breaks=20)
+
+abline(v = meanLPR, col = "red", lwd = 2)
+text(x=meanLPR)
+abline(v = medianLPR, col = "green", lwd = 2)
+
+```
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT> 
+<br>
+As we can see from the boxplot, Loss per Return is mostly distributed from range 0 to 4000 and it consists of multiple data point(outliers) that is located outside the fences (“whiskers”) of the boxplot. Also, the Red color indicated the Mean whereas green color shows the Median of the data. If we look at the Histogram, mean and median both are 592.28 and 540.90 respectively.
+</P>
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 2.3:</B> </FONT> <B> <FONT size=3, color="Red"> 
+Total Loss using Boxplot and Histogram </B>
+</FONT>  </P>
+```{r}
+#Task 2.3:
+par(mfcol = c(1,2),mai=c(1,0.5,0.5,1))
+#Loss per Return Boxplot
+boxplot(Project6Data$Total_loss,
+        main="Total Loss Represenation",
+        ylim= c(0,8000), col = "pink")
+points(meanTL, col="red")
+points(medianTL, col="green")
+
+
+
+#histogram
+hist(Project6Data$Total_loss,
+     main="Histogram of Total Loss",
+     xlab="Total Loss",
+     border="black",
+     col= brewer.pal(5,name="Set1"),
+          ylim=c(0,600),
+     xlim=c(0,8000),
+     las=1,breaks=20)
+
+abline(v = meanTL, col = "red", lwd = 2)
+abline(v = medianTL, col = "green", lwd = 2)
+
+```
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT>
+
+In the above boxplot, Total Loss is mostly distributed from range 0 to 8000 and it also consists of multiple data point(outliers).If we look at the Histogram, mean and median both are 823.8 and and 578.32 respectively. The company seems to be in Profit as the losses are pretty low compared to the Total Sales.
+</P>
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 2.4:</B> </FONT> <B> <FONT size=3, color="Red">
+Profits representation using Boxplot and Histogram
+</FONT> </P> </B>
+
+```{r}
+#Task 2.4:
+par(mfcol = c(1,2),mai=c(1,1,0.5,1))
+#Profits Boxplot
+boxplot(Project6Data$Profits,
+        main="Profits representation",
+        ylim= c(0,10000), col = "dark green")
+points(meanProf, col="red")
+points(medianProf, col="green")
+
+
+
+# Profits histogram
+hist(Project6Data$Profits,
+     main="Histogram of Profits",
+     xlab="Profits",
+     border="black",
+     col= brewer.pal(5,name="Pastel2"),
+          ylim=c(0,300),
+     xlim=c(0,8000),
+     las=1,breaks=20)
+
+abline(v = meanProf, col = "red", lwd = 2)
+abline(v = medianProf, col = "green", lwd = 2)
+
+```
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT> 
+<br>
+Looking at the box plot, profit is mostly distributed from range 0 to 8500 and it consists of multiple data point that is located outside the whiskers of the boxplot. the Histogram here tells us the frequency represenation of Profits where the mean is in red i.e. 1066.54 and median is in green i.e. 834.35
+</P>
+
+<BR>
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Task 3:</B> </FONT> <B> <FONT size=3, color="476109"> Presenting the frequency distribution across different categorical variables using bar graphs and Pie Charts</FONT> </B> </P>
+
+```{r}
+#Task 3.1:
+
+Price_Segment=table(Project6Data$Segment)
+#knitr::kable(Price_Segment)
+plot3_1 = barplot(Price_Segment,
+                main="Observations per Segment",
+                xlab="Segment",
+                ylab = "Observation",
+                ylim=c(0,600),
+                cex.name=0.4,
+                cex.axis=0.6,
+                col= brewer.pal(5,name="Reds") )
+
+text(y=Price_Segment,
+     plot3_1,Price_Segment,
+     cex=0.7,pos=3)
+```
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Summary 3.1</B> </FONT> 
+<BR>
+I've used Segment as my categorical value in the graph above, and the y-axis shows the number of observations for each category. Consumer products appear to have the most observations (553), whereas home office products appear to have the fewest observations (155).
+
+</P>
+```{r}
+#Task 3.2:
+
+
+Price_Market=table(Project6Data$Market)
+#knitr::kable(Price_Market)
+plot3_2 = barplot(Price_Market,
+                main="Observation per Market",
+                xlab="Market",
+                ylab = "Observations",
+                ylim=c(0,350),
+                cex.name=0.4,
+                cex.axis=0.6,
+                col= brewer.pal(5,name="Greens") )
+
+text(y=Price_Market,
+     plot3_2,Price_Market,
+     cex=0.7,pos=3)
+```
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Summary 3.2</B> </FONT>
+<BR>
+In the above graph, y-axis shows the number of observations whreas x axis shows the Market distribution. Market in Asia Pacific appears to have the most observations (302), whereas Africa seems to have the lowest observations (62). We can conclude from above graph that products present in the dataset seems to doing good in Asia pacific market whereas Africa still need to improve a lot. 
+
+</P>
+```{r}
+#Task 3.3:
+
+Price_ShipMode=table(Project6Data$ShipMode)
+#knitr::kable(Price_ShipMode)
+labl = paste(names(Price_ShipMode), "\n", Price_ShipMode, sep="")
+
+plot3_3 = pie(Price_ShipMode,
+                main="Pie chart representing distribution of observations in each ShipMode",
+                col= brewer.pal(4,name="Set2"), labels = labl)
+
+
+```
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Summary 3.3</B> </FONT>
+<br>
+
+Above pie chart represents the observation of each ship mode in the dataset.Same day shipping seems to be rare i.e. 64 whereas Standard class mode of shipping is quite frequent i.e. 551. Even in normal scenarios shipping usually takes 3-4 business days considering packing, transportation takes time.
+</P>
+
+```{r}
+#Task 3.4:
+
+Price_OrderPriority=table(Project6Data$OrderPriority)
+#knitr::kable(Price_OrderPriority)
+
+labl3 = paste(names(Price_OrderPriority), "\n", Price_OrderPriority, sep="")
+
+plot3_4 = pie(Price_OrderPriority,
+                main="Observations per OrderPriority",
+                col= brewer.pal(5,name="Set3"), label =labl3 )
+
+
+```
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Summary 3.4</B> </FONT> </B> <br>
+
+The observation of each order's order Priority in the dataset is shown in the pie chart above. Products with priority Medium appears to be highly common (508), whereas Products with priority Low appears to be relatively uncommon (45).
+</P>
+<br>
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Task 4:</B> </FONT> <B> <FONT size=3, color="476109"> What is the average sales per Market ? </FONT> </B> </P> 
+<br>
+
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 4.1:</B> </FONT> <B> <FONT size=3, color="Red"> What is the average sales per Market ? </B> </Font>
+<br>
+<P style="font-family:Serif ">
+<FONT size=2>
+The implication behind asking this question is to determine how much average Sales each market is making for these different products. By asking this question we will be able to figure out where the products are not being sold and need some improvement
+</Font></P>
+
+
+
+
+```{r}
+#Task 4.1:
+
+Market = Project6Data$Market
+meanMsales=tapply(Project6Data$Net_Sale,Market,mean)
+
+#Barplot showing average Netsales 
+plot4_1 = barplot(meanMsales,
+                main="Average Net Sales vs Market",
+                xlab="Market",
+                ylab = "Average Net Sales",
+                ylim=c(0,3500),
+                cex.name=0.6,
+                cex.axis=0.8,
+                col= brewer.pal(5,name="BrBG") )
+
+text(y=meanMsales,
+     plot4_1,round(meanMsales,2),
+     cex=0.9,pos=3)
+
+
+```
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+As we saw in task 3.2, Africa Market had the least number of observations however from above chart we can conclude that the average Net Sales in Africa seems to be doing well compared to USCA. Also, even though Asia Pacific had the highest observations previously, but Market in Europe seems to be doing better here and having an average net sales i.e. 2665.22. Hence we can conclude that products are doing extremely well in all teh Markets except USCA.
+</P>
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 4.2:</B> </FONT> <B> <FONT size=3, color="Red"> What category of Products are making the highest Profits? </FONT> </B> </P>
+<br>
+<P style="font-family:Serif ">
+<FONT size=2>
+Discovering the Profits of Products Belonging to Different Departments. We can determine which product departments are profitable and, if any, which are losing money.
+</Font>
+</P>
+
+```{r}
+#Task 4.2:
+
+dep=tapply(Project6Data$Profits,Project6Data$Department,sum)
+
+pct <- round(dep/sum(dep)*100)
+
+labl4 = paste(names(dep), "\n", pct, sep="", "%")
+
+#Pie Chart
+plot4_2 = pie(dep,
+                main="Profit Percentage distribution based on Department",
+                col= brewer.pal(5,name="Set3"), label =labl4 )
+
+
+```
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+From the preceding figure, we can deduce that Office Supplies is performing the worst, producing just 26% of the total profit, while Products belonging to the department of Technology are doing wonderfully i.e.38%
+</P>
+<br>
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 4.3:</B> </FONT> <B> <FONT size=3, color="Red"> What is maximum price of products in each division? </FONT> </B> </P>
+<P style="font-family:Serif ">
+<FONT size=2>
+The implication behind asking this question is to determine what is the maximum Price of products and which division do they belong to? By asking this question we will be able to figure out which product division are expensive and which are the cheapest ones.
+</Font>
+</P>
+
+```{r, warning = FALSE}
+
+#Task 4.3:
+
+maxdiv=tapply(Project6Data$Price,Project6Data$Division,max)
+barname = c("Accessories","Chairs","Bookcases","Storage","Binders","Phones","Copiers","Art","Supplies","Machines","Fasteners","Appliances","Furnishings","Paper","Envelopes","Labels","Tables")
+
+#Dot chart representing maximum price
+
+dotchart(maxdiv,
+         main="The Max price per divison",
+         xlab = "Max Price",
+         col= brewer.pal(8,"Set2"), cex = 0.7)
+
+
+        
+```
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+From the preceding figure, we were able to comprehend that in the division category, Phones have the maximum price (expensive) compared to rest divisions and it also belongs to Technology Department and has been making the Profits of the company high i.e.$3558
+</P>
+
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 5:</B> </FONT> <B> <FONT size=3, color="476109"> Statistical Analysis for USCA Region (i.e.Filtered region using dplyr library)</FONT> </B> </P>
+
+```{r}
+
+#Task 5 filtering region Central US which is inside Market USCA
+USCA_filtered = dplyr::filter(Project6Data, Region =="Central US")
+#Table
+segment = USCA_filtered$Segment
+USCA_table= tapply(USCA_filtered$ShippingCost_Product,segment,mean)
+ 
+USCA_table %>%
+  kbl(caption = "Presenting the filtered table based on Average Shipping Cost and Segment for Central US in Market USCA", font_size = 10, position ='center', digits = 2) %>%
+  kable_material_dark(full_width = F, html_font = "Georgia", font_size = 8)
+
+labl_5 = (paste(names(round(USCA_table,2)),"\n", USCA_table, sep=""))
+
+#pie chart
+
+#Barplot 
+plot4_3 = barplot(USCA_table,
+                main="Average Shipping cost per product by Segments in Market USCA",
+                xlab="Segment",
+                ylab = "Average Shipping Cost",
+                ylim=c(0,20),
+                cex.name=0.6,
+                cex.axis=0.7,
+                col= brewer.pal(5,name="Set3"))
+
+text(y=USCA_table,plot4_3,round(USCA_table,2),cex=0.8,pos=3)
+
+
+
+
+
+
+```
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+The majority of shipping companies base their charges on a pricing strategy known as dimensional weight. By multiplying the package's length, height, and breadth, the Shipping Charges are determined. The figure above is then divided using a common divisor.As we can see in the bar chart above, the average shipping charges for Consumer segment is higher compared to the rest which is understandable as in this Segment products like, Phones, electronic gadgets etc are included which are heavier  and are in big sizes also safety is important for such products hence more shipping cost. In the above chart we are only looking at the average Shipping cost for Region Central US which in under Market USCA and trying to find out the reason why USCA has the lowest net sales and is Shipping cost one of the criteria that is affecting its improvement.
+</P>
+
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 6:</B> </FONT> <B> <FONT size=3, color="476109"> Identifying the reasons of less net sales in USCA Market compared to others</FONT> </B> </P>
+
+```{r, warning=FALSE}
+
+#Task6:
+
+par(mfcol=c(2,2), mai = c(0.3,0.2,1,0.3))
+
+
+plot_Profits=tapply(Project6Data$Profits,Project6Data$Market,mean)
+
+#Barplot showing Profits per market 
+plot6_1 = barplot(plot_Profits,
+                main="Avg Profits per Market",
+                xlab="Market",
+                ylab = "Profits",
+                ylim=c(0,2000),
+                cex.name=0.42,
+                cex.axis=0.5,
+                col= brewer.pal(5,name="BrBG") )
+
+text(y=plot_Profits,
+     plot6_1,round(plot_Profits,2),
+     cex=0.9,pos=3)
+
+plot_quantity = tapply(Project6Data$Quantity,Project6Data$Market,sum)
+
+#Barplot showing quantity per market
+plot6_2 = barplot(plot_quantity,
+                main="Quantity per Market",
+                xlab="Market",
+                ylab = "Quantity",
+                ylim=c(0,3000),
+                cex.name=0.42,
+                cex.axis=0.5,
+                col= brewer.pal(5,name="Set3"))
+
+text(y=plot_quantity,
+     plot6_2,round(plot_quantity,2),
+     cex=0.9,pos=3)
+
+USCA_filtered = dplyr::filter(Project6Data, Market =="USCA")
+
+#Table
+USCA_dept = USCA_filtered$Department
+USCA_dept_table= tapply(round(USCA_filtered$Price,2),USCA_dept,mean)
+
+
+labl_6_3 = (paste(names(USCA_dept_table),"\n", round(USCA_table,2), sep=""))
+
+#Pie chart showing avg price by dept
+plot6 = pie(USCA_dept_table,
+                main="Avg Price by Dept.in Market USCA",
+                xlab="Department",
+                ylab = "Average Price",
+                cex.name=0.5,
+                cex.axis=0.5,
+                col= brewer.pal(5,name="Set1"), horiz = T, labels = labl_6_3)
+
+
+#In depth Quantity Analysis in USCA Market
+USCA_dept = USCA_filtered$Department
+USCA_quan_table= tapply(USCA_filtered$Quantity,USCA_dept,sum)
+
+plot6 = barplot(USCA_quan_table,
+                main="Quantity by Dept. in Market USCA",
+                xlab="Department",
+                ylab = "Quantity",
+                ylim=c(0,800),
+                cex.name=0.6,
+                cex.axis=0.7,
+                col= brewer.pal(5,name="Spectral"))
+
+text(y=USCA_quan_table,plot6,round(USCA_quan_table,2),cex=0.8,pos=3)
+
+```
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+I have shown the market analysis for USCA in the graph above. As I completed all the chores, I realized that USCA's net sales were the lowest. To investigate why, I included that information into various charts. The association between Average Profits per Market is depicted in the first graph. We are attempting to confirm whether USCA has the lowest average price and lowest quantity because we are aware that USCA has the lowest sales. The aforementioned data show that while net sales and average profits for the USCA are both low, the Africa market has the lowest amount of merchandise available.
+
+Looking at the right side of the graphs, we have only included data for the USCA Market in order to determine which department's prices or quantity resulted in the market's lowest profit. The items under the technology section are clearly not doing well. Although they are less expensive than the competition, fewer customers have purchased them overall. 
+</P>
+
+
+
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Task 7:</B> </FONT> <B> <FONT size=3, color="476109"> Plotted a density plot for variable Price and showing the vertical lines for Mean, maximum, minimum and three points below the standard deviation and three points above the standard deviation </FONT> </B> </P>
+
+
+```{r}
+
+density(Project6Data$Price, adjust = 1.2) %>%
+plot(col="green", main="Density Plot of Price", xlim=c(-400, 4000))
+
+
+# Vertical line and text for the mean, max and min
+
+abline(v = mean(Project6Data$Price),
+       col = "blue",
+       lwd = 2)
+
+abline(v = max(Project6Data$Price),
+       col = "black",
+       lwd = 2)
+abline(v = min(Project6Data$Price),
+       col = "black",
+       lwd = 2)
+
+##find which values contain 99.7% of data( three standard deviation)
+M_Price = mean(Project6Data$Price)
+SD_Price= sd(Project6Data$Price)
+
+Point1= M_Price - 3*SD_Price
+Point2= M_Price + 3*SD_Price
+
+#Above points
+abline(v = Point2,
+       col = "red",
+       lwd = 2)
+
+
+#Below points
+abline(v = Point1,
+       col = "red",
+       lwd = 2)
+
+
+text(x=mean(Project6Data$Price),
+     y = 0.0015,
+     paste("Mean:", round(mean(Project6Data$Price),1)),
+     col = "blue",
+     cex = 0.8,
+     pos = 4)
+text(x=Point1,
+     y = 0.0012,
+     paste("Three SD below the mean :", round(Point1,1)),
+     col = "blue",
+     cex = 0.8,
+     pos = 4)
+
+text(x=Point2,
+     y = 0.0007,
+     paste("Three SD above the mean :", round(Point2,1)),
+     col = "blue",
+     cex = 0.8,
+     pos = 4)
+
+lines(density(Project6Data$Price),
+      lwd = 2,
+      col = "green")
+
+
+```
+
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+<BR>
+The distribution of price over a continuous interval or time period is represented using a density plot. This graph is a variant of a histogram that plots values using kernel smoothing to provide smoother distributions by eliminating noise. A density plot's peaks is used to show price values that are concentrated across an interval.The price distribution is concentrated across $500 to $700 where average price of the products are 548.8 and standard deviation is $293.9. Now to show the three standard deviation below and above the mean, I have represented it using color red and used text function in order to show the point results.
+ref: ZACH,(SEPTEMBER 27, 2021), <I>How to Apply the Empirical Rule in R</I> statology.org/empirical-rule-in-r/
+</P>
+
+
+<P style="font-family:Serif ">>
+<FONT size=5, color="Maroon">
+
+<B>CONCLUSION</B>
+</FONT>
+</P>
+
+<P>The Final Project data set contained logistics data which included products information over different regions and markets. I was able to gather lots of insightful data from this dataset. While doing the analysis on different numerical and categorical variables,  I was able to draw few conclusions.In different tasks where I plotted different graphs for Departments, Divisions, Markets, etc.I observed that measures like Total sales, profits and quantity varies notably between various markets and departments. Products under Technology Category seemed to be selling well and in Segment category, Corporate and Consumer are making more profits. The Average Sales are almost doing exceptionally well compared to Market in USCA. While doing analysis on the product division, I could see the impact of digital era as phones are rapidly bought products in bulk. By raising knowledge of the items and their significance in daily life, I think there is a chance to increase earnings in markets like Africa and the USCA for upcoming ventures. These markets' quantity has to be increased. Additionally, businesses can continue to invest in digital devices, which will undoubtedly help them in the future.
+</P>
+
+<P>
+While doing this assignment, I learned several R functions like par, filter, head, tapply, density plots, etc. and how to use them to improve reports while using the instructor's scripts to assist me with a few of the tasks. Despite being new to R, I now feel more comfortable running the R codes. The work and time required to run the code are reduced and made easier with the implementation of objects at each stage. The graph changes significantly and becomes more attractive when small elements like captions, axis length, and axis names are included.
+</P>
+
+<BR>
+<P style="font-family:Serif ">>
+<FONT size=5, color="Maroon">
+<B>BIBLIOGRAPHY</B>
+</FONT>
+</P>
+
+<B>References :</B>
+
+1. BY JOE,(DECEMBER 28, 2017),<I> Logistics Analysis – Why Is It Important To Your Organization? </I> https://bestlogisticsguide.com/basics/logistics-analysis/#:~:text=Logistics%20analysis%20consists%20of%20the,services%20in%20a%20competitive%20environment.
+2. ZACH,(SEPTEMBER 27, 2021), <I>How to Apply the Empirical Rule in R</I> statology.org/empirical-rule-in-r/
+3. Dr Dee_Chiluiza, https://rpubs.com/Dee_Chiluiza/barplots
+4. <I> The R Graph Galley </I> https://r-graph-gallery.com/38-rcolorbrewers-palettes.html
+5. https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+6. Bluman Elementary Statistics - McGraw Hill
+7. For errors referred to Stack Overflow:   https://stackoverflow.com/questions/27122028/r-pie-x-values-must-be-positive
+
+<BR>
+<P style="font-family:Serif ">>
+<FONT size=5, color="Maroon">
+<B>ACKNOWLEDGMENT</B>
+</FONT>
+</P>
+<P>
+Words cannot express my gratitude to my professor Dr. Dee Chiluiza for her invaluable teachings. R was foreign to me, but now that I understand it, I can use it to run basic statistics and perform visualizations. I also could not have completed this journey without the extensive knowledge and experience that my peers provided.
+
+I also appreciate the emotional support I received from my friends and cohort members. The university's librarians and study participants are all deserving of commendation because they inspired and had an impact on me.
+
+
+<BR>
+<P style="font-family:Serif ">>
+<FONT size=5, color="Maroon">
+<B>APPENDIX</B>
+</FONT>
+</P>
+
+<P>
+This project Folder consists of three files, An R Markdown file i.e. Final_Project.Rmd  and two additional HTML. The name of the files are "Final_Project.html"and Final_Project_copy.html. </P>
+
+
+
+

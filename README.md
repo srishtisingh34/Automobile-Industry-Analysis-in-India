@@ -33,9 +33,7 @@ To explore the analysis and findings, refer to the provided dataset and analysis
 
 - Wagner, [Reference Title], 2021.
 - Thakkar, K., Shyam, A. R., Mukherjee, S., & Auto, 2021.
-- Bluman, A. G. (2018). [Book Title]. [Publisher].
+- Bluman, A. G. (2018).
 
 Feel free to contribute or provide feedback to enhance this analysis!
 ```
-
-Replace `[Your Name]` with your name or the names of contributors. Also, ensure you provide accurate and complete references for the sources mentioned.

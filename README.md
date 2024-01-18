@@ -27,8 +27,7 @@ To explore the analysis and findings, refer to the provided dataset and analysis
 
 ## Contributors
 
-- [Your Name]
-- [Any other contributors]
+- Srishti Singh
 
 ## References
 

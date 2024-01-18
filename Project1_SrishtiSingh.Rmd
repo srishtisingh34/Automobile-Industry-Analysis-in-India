@@ -1,0 +1,476 @@
+<!--ALY6010 Project -->
+
+```{r librarydata,message=FALSE, warning=FALSE, include=FALSE, echo=FALSE}
+#knitr::opts_chunk$set(fig.width = 8, collapse = TRUE)
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(FSA)
+library(FSAdata)
+library(DT)
+library(RColorBrewer)
+library(kableExtra)
+
+```
+<CENTER>
+<FONT SIZE=4, COLOR="#A11515">
+<B><U><FONT SIZE=5, COLOR="#660033">Project 1 Report</FONT></U>
+<BR> <BR>
+Class Name: ALY6010- Probability Theory and Introductory Statistics
+<BR>
+Name: Srishti Singh
+<BR>
+Instructor: Prof. Dee Chiluiza Reyes, PhD
+<BR> Date: `r format(Sys.time(),"%d %B, %Y") `
+</B>
+</FONT>
+</CENTER>
+
+<br> 
+
+<P style="font-family:Serif ">>
+<FONT size=4, color="Maroon">
+<B>INTRODUCTION</B>
+</FONT>
+<br>
+</P>
+The most significant industry in the world, the automobile sector encompasses both passenger cars and commercial vehicles. It is predicted that global vehicle sales will drop to just about 70 million units in 2021 from 80 million units in the previous year. China is regarded as having the world's largest market for vehicle sales and production (Wagner, 2021). In the case of the second wave of COVID 19, momentum in the automotive industry would be favorable, claims Tarun Garg. Analysts at IHS Markit, JATO Dynamics, Credit Suisse, and Nomura forecast that the global vehicle market would rise by 23% to 32% in 2021. The year 2010 saw the fastest growth recorded at 30%.<B> ref- (Thakkar, K., Shyam, A. R., Mukherjee, S., & Auto, 2021)</B>
+
+<B>Discrete Probability Distribution :</B>
+Countable variables with a finite number of values are discrete variables (Bluman, 2018). The example includes discrete variables such as flower varieties, the number of children in a family, automobile colour, and car model. The probability distribution is always finite since there are only a finite number of possible outcomes for these variables.
+
+<B>Continuous Probability Distribution :</B>
+Variables that are measured are known as continuous variables. Continuous variables have unlimited values between any two specified values as opposed to discrete variables, which have finite values (Bluman, 2018). Among others, height, temperature
+A continuous probability distribution is the likelihood that random variables will fall within a particular range.
+
+<BR>
+In this assignment, we are analyzing Indian automobile sales statistics. This dataset has 12 variables and about 5844 observations. The primary goal of this assignment is to examine car sales in light of many characteristics, such as effectiveness, power, engine, etc. This dataset includes information from numerous Indian cities between 1998 and 2019.
+
+<br>
+
+<P>
+<FONT size=3, color="829750">
+<B>ANALYSIS SECTION</B>
+</FONT>
+<P> <br>
+
+```{r Importdata, message=FALSE, warning=FALSE, echo=FALSE, include=FALSE}
+#import data
+M1data_carsales <- read_excel("Dataset/M1data_carsales.xlsx") 
+    col_types = c("text", "text", "numeric", 
+        "numeric", "text", "text", "text", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric")
+
+```
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 1:</B> </FONT> <B> <FONT size=3, color="476109"> Implementation of Select, T and describe functions to transform few of the variables in the dataset  </Font> </B>
+</P>
+
+```{r}
+
+# Task 1:
+M1data_carsales%>% 
+   dplyr::select(Efficiency,Power_bhp, Seats, Km, Price ) %>%
+   psych::describe()%>%
+   t()%>%
+   round(2)%>%
+ knitr::kable()
+   
+```
+
+
+<BR>
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+In the task1, I learnt a lot of useful functions implementation in R. I learnt the implementation of pipe symbols and realized that in order to transpose the data in matrix, one can use t() function. Describe() function shoes the descriptive statistics of the data ans select is used to select few fields from the data set.  </B>
+
+
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 2:</B> </FONT> <B> <FONT size=3, color="476109">  Prepared a bar plot to display frequency of variable Location and representing percentage distribution of Fuel type using Pie Chart </Font> </B>
+</P>
+
+```{r Task1, message=FALSE, warning=FALSE}
+#Task 2.1:
+def_par <-par()
+par(mfcol=c(1,2))
+
+freq = table(M1data_carsales$Location)
+
+bp1=barplot(freq, main="Freq Distribution Of Location \n", ylab = "Location", xlim = c(0, 800), xlab = "Frequency", col=brewer.pal(5,"Set3"), cex.names = 0.25, horiz = T)
+
+text(freq,
+     bp1,freq,
+     cex=1,pos=2)
+
+#Task 2.2: 
+
+Fuel_type = table(M1data_carsales$FuelType)
+
+pctf <- round(Fuel_type/sum(Fuel_type)*100)
+labl = paste(names(Fuel_type), "\n", pctf, sep="", "%")
+pie(Fuel_type, labels = labl,
+   main ="Pie Chart showing Fuel type \n", cex = 0.31)
+
+```
+<BR>
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+In the task, Bar graph represents frequency distribution of a cars by their Location in different states of India.  According to the above graph, we can observe that the highest number of cars in India are from Mumbai and Pune i.e. 677 and 529 respectively. In task 2.2, Pie chart represents frequency distrobution according to the fuel type in percentages. As we can see that CPG and LPG are not popular in India whereas most of the people are using Gasoline and Diesel for Fuel.</B> ref - 4. RGB Color Codes Chart 🎨. (n.d.). Rapidtable. Retrieved June 5, 2021, from https://www.rapidtables.com/web/color/RGB_Color.html
+
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 3:</B> </FONT> <B> <FONT size=3, color="476109"> Created table with representing Owner and its frequency and percentage distribution </Font>
+</P>
+
+```{r}
+
+#Task 3: 
+task3_table = M1data_carsales$Owner%>%
+table() %>%
+as.data.frame()%>%
+rename(Frequency = Freq)%>%
+mutate(Cumulative_Frequency = cumsum(Frequency),
+Percentage = (Frequency/nrow(M1data_carsales))*100 ,
+Cummulative_Percentage = cumsum(Percentage))
+
+knitr::kable(task3_table,
+digits = 2,
+caption = "Frequency of Owners of Cars",
+format = "html",
+table.attr = "style='width:30%;'",
+align = 'c')  %>%
+
+kable_classic(bootstrap_options = "hover",
+full_width = TRUE,
+position= "center",
+font_size = 13,
+lightable_options = "basic",
+  html_font = "\"Arial Narrow\", \"Source Sans Pro\", sans-serif",
+)
+
+```
+
+
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+In the frequency distribution for Owners of cars, we can see that most of the dataset have first hand cars i.e. they only had one owner i.e. (2921). The thing to observe in the table is that frequency of cars who had 3 owners are less than  four times owned  cars.
+</P>
+<br>
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Task 4:</B> </FONT> <B> <FONT size=3, color="476109"> Using density() and plot() functions and presenting a density curve for kilometer variable. Also represented vertical lines for points based on z scores </FONT> </B> </P>
+
+
+```{r}
+
+#Task 4: 
+density(M1data_carsales$Km, adjust = 1.2) %>%
+plot(col="green", main="Density Plot of Kilometer")
+
+abline(v = mean(M1data_carsales$Km),
+       col = "blue",
+       lwd = 2)
+
+text(x=mean(M1data_carsales$Km),
+     y = 0.000012,
+     paste("Mean:", round(mean(M1data_carsales$Km),1)),
+     col = "blue",
+     cex = 0.6,
+     pos = 4)
+
+#Plotting for Z scores
+
+zscore_1 = 2.4
+value1 = (zscore_1*sd(M1data_carsales$Km))  + mean(M1data_carsales$Km)
+
+zscore_2 =-3.1
+value2 = (zscore_2*sd(M1data_carsales$Km))  + mean(M1data_carsales$Km)
+
+
+abline(v = value1,
+       col = "red",
+       lwd = 2)
+
+text(x=value1 ,
+     y = 0.000008,
+     paste("Point1:", round(value1,1)),
+     col = "red",
+     cex = 0.5,
+     pos = 4)
+
+abline(v = value2+15000,
+       col = "red",
+       lwd = 2)
+
+text(x=value2 ,
+     y = 0.000010,
+     paste("Point2:", round(value2,1)),
+     col = "red",
+     cex = 0.5,
+     pos = 4)
+
+
+
+```
+
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+In the above density distribution for variable km, we can infer that mean is equal to 55809.1, the point1 above the mean is equal to 124843.2 whereas the point2 below the mean is -33359.9. In order to show the point 2 on density plot using abline function, I have used point2 + 15000 as the value in point2 was extremely small.
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Task 5:</B> </FONT> <B> <FONT size=3, color="476109"> Showing a horizontal box plot and a histogram to display the variable kilometers distribution.  </FONT> </B> </P>
+
+```{r}
+#Task 5
+
+par(mfrow = c(2,1), mai=c(0.5,1,1,0.5))
+
+boxplot(M1data_carsales$Km,
+        col = brewer.pal(3,"Pastel1"),
+        main=NA,
+        xlab= "Km",
+        ylab= "Frequency",
+        cex.name=0.7,
+        cex.axis=0.7,
+        las=1, horizontal = T
+        )
+
+hist(M1data_carsales$Km,
+     main=NA,
+     xlab="Km",
+     border="blue",
+     col= brewer.pal(5,name="PRGn"),
+          ylim=c(0,500),
+     xlim=c(0,150000),
+     las=2,breaks=30)
+
+abline(v = mean(M1data_carsales$Km), col = "red", lwd = 2)
+
+text(x=mean(M1data_carsales$Km) ,
+     y = 450,
+     paste("Mean:", round(mean(M1data_carsales$Km),1)),
+     col = "red",
+     cex = 0.6,
+     pos = 3)
+
+```
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+
+In the above two charts, Boxplot is graphically demonstrating the locality, spread and skewness groups of Kilometer variable. There are numerous outlier exist in the Km distribution. While looking at the histogram, we can infer that the Km is concentrated mostly in the range 50000 to 80000. The mean is represented by the red line.
+
+</P>
+<br>
+
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 6:</B> </FONT> <B> <FONT size=3, color="476109"> presenting the box plot and histogram for price of Cars. </FONT> </B> </P>
+
+```{r}
+
+#Task 6: Boxplot representation
+par(mfcol = c(1,2), mai=c(0.9,1,1,0.4))
+
+boxplot(M1data_carsales$Price,
+        col = brewer.pal(3,"Pastel2"),
+        main="Price Distribution",
+        xlab= "Km",
+        ylab= "Frequency",
+        cex.name=0.8,
+        cex.axis=0.8,
+        las=1, horizontal = F
+        )
+
+points(mean(M1data_carsales$Price), col = "red", lwd = 2)
+
+hist(M1data_carsales$Price,
+     main="Histogram for Price ",
+     xlab="Km",
+     border="blue",
+     col= brewer.pal(5,name="Set2"),
+          ylim=c(0,600),
+     xlim=c(0,30000),
+     las=1,breaks=25)
+
+abline(v = mean(M1data_carsales$Price), col = "red", lwd = 2)
+
+text(x=mean(M1data_carsales$Price) ,
+     y = 450,
+     paste("Mean:", round(mean(M1data_carsales$Price),1)),
+     col = "red",
+     cex = 0.8,
+     pos = 4)
+```
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+
+In the above charts, Price of cars are distributed from range 0 to 250000 where most of the data points are concentrated around amount 5000 - 10000. Both the chart represents the means as a measure of central tendency of a probability distribution along median and mode i.e.8383.2
+</P>
+<br>
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 7:</B> </FONT> <B> <FONT size=3, color="476109">Box plot displaying the price distribution per owner.  </FONT> </B> </P>
+
+```{r}
+#Task 7:
+
+boxplot(M1data_carsales$Price ~ M1data_carsales$Owner,
+        col = brewer.pal(3,"Pastel1"),
+        main="Price by Owners",
+        xlab= "Owner",
+        ylab= "Price",
+        cex.name=0.8,
+        cex.axis=0.8,
+        las=1
+        )
+```
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+As per the chart above surprisingly most of the cars have been used by three different owners and has been selling well with a varied price range from 2000 to 22000 however it becomes vice versa in for the cars with 4 different owners and are in extreme loss compared to rest of the owners categorization.
+</P>
+<br>
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 8:</B> </FONT> <B> <FONT size=3, color="476109">Box plot displaying the Kilometer distribution in different Locations.  </FONT> </B> </P>
+
+```{r}
+
+#Task 8: 
+boxplot(M1data_carsales$Km ~ M1data_carsales$Location,
+        col = brewer.pal(3,"Pastel1"),
+        main="Km by Location",
+        xlab= "Location",
+        ylab= "Km",
+        cex.name=0.2,
+        cex.axis=0.8,
+        las=1
+        )
+```
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+According to the above chart, Chennai state seems to be having large scattered Km data points and has no outliers whereas rest of the cities seem to be having large number of outliers except Pune
+</P>
+<br>
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 9:</B> </FONT> <B> <FONT size=3, color="476109"> Applying and presenting the outcomes of code boxplot.stats() for kilometer variable in the dataset.  </FONT> </B> </P>
+
+```{r}
+boxplot.stats(M1data_carsales$Km) 
+```
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+The statistics are presented in a clear manner using stats() function, they also aid in distilling the data into significant numbers. Therefore, statistical techniques provide insightful data. In other words, statistics aid in making complex data simple and comprehensible. In the above output, stats represents a 5-dimensional vector made up of the median, the top 'hinge,' the extreme of the upper whisker, the lower 'hinge,' and the extreme of the lower whisker, whereas n represents sample population. Conf stands for the lower and upper extremes of the ‘notch’ and out represents the outliers which are at extremes. 
+</P>
+<br>
+
+<P style="font-family:Serif ">
+<FONT size=3, color="829750">
+<B>Task 10:</B> </FONT> <B> <FONT size=3, color="476109"> Displaying the quartiles 
+values for kilometers </FONT> </B> </P>
+
+```{r}
+#Task 10:
+
+quartile_dot =boxplot.stats(M1data_carsales$Km)$stats
+
+dotchart(quartile_dot,
+         main="The quartiles values for variable kilometers",
+         xlab = "Quartiles Km",
+         col= brewer.pal(8,"Set1"))
+
+```
+
+<P style="font-family:Serif ">
+<FONT size=4, color="829750">
+<B>Observation</B> </FONT> </B> <br>
+Above chart represents the quantiles distribution of Km using stats function. The distribution is stored in a vector in the form  0%  25%  50%  75% 100%  where it shows  how much of Km variable lies below a certain value. The extreme are above 1290000. 
+</P>
+<br>
+
+<BR>
+<P style="font-family:Serif ">>
+<FONT size=4, color="Maroon">
+
+<B>CONCLUSION</B>
+</FONT>
+</P>
+
+<P>
+
+<BR>
+<ul>
+<li> In India, most people like vehicles with a power output of 100 to 150 horsepower.
+<li> Data from several years shows that people prefer five-seater cars in general.
+<li> The majority of the data in kilometers ranges from 30 to 100K. The boxplot also shows that the data contains a lot of outliers.
+<li> I learned a lot of R functions from this project. While working on the assignment, I discovered various different approaches to approach the same issue, such as using the pipe line symbols or the object creation to obtain the same results when calculating the observations of a variable. 
+<li> In this assignment, I have used the describe and select  functions for the first time, which gives a better representation of the data.
+</ul>
+</P>
+
+<P>
+I learned several R functions including describe, transform, and select as well as how to use them to improve reports while using the instructor's scripts in a few of the projects. Being intermediate in R, I discovered that minor adjustments to the graph, such as axis length, axis names, and captions, can have a significant impact on the graph's appearance.
+</P>
+
+<BR>
+<P style="font-family:Serif ">>
+<FONT size=4, color="Maroon">
+<B>BIBLIOGRAPHY</B>
+</FONT>
+</P>
+
+References used:
+
+<P>1. Bluman, Allan G. Elementary Statistics: A Step by Step Approach. Tenth edition. New York, NY: McGraw-Hill Education, 2018. 
+
+<P>2. Chiluiza, D. (2021, May 8). RPubs - Basic codes for R Markdown. RPubs. https://rpubs.com/Dee_Chiluiza/766786
+
+<P>3. Wagner, I. (2021, April 22). Automotive industry worldwide - statistics & facts. Statista. https://www.statista.com/topics/1487/automotive-industry/
+
+<P>4. RGB Color Codes Chart 🎨. (n.d.). Rapidtable. Retrieved June 5, 2021, from https://www.rapidtables.com/web/color/RGB_Color.html
+
+<P>5. Culver, M. (n.d.). Business Wire. Businesswire. Retrieved June 5, 2021, from https://www.businesswire.com/news/home/20201217005798/en/Global-Auto-Sales-Expected-to-Gain-Momentum-Next-Year-83.4-Million-Light-Vehicles-to-Be-Sold-In-2021-According-to-IHS-Markit
+
+<P>6. Thakkar, K., Shyam, A. R., Mukherjee, S., & Auto, E. T. (2021, January 11). Indian car market may post record 30% growth in 2021 on low base. ETAuto.Com. https://auto.economictimes.indiatimes.com/news/passenger-vehicle/cars/indian-car-market-may-post-record-30-growth-in-2021-on-low-base/80218106
+
+<P>7. <I> The R Graph Galley </I> https://r-graph-gallery.com/38-rcolorbrewers-palettes.html </P>
+
+
+<BR>
+<P style="font-family:Serif ">>
+<FONT size=4, color="Maroon">
+<B>APPENDIX</B>
+</FONT>
+</P>
+
+<P>
+An R Markdown file has been attached to this report. The name of the file is "Project1_SrishtiSingh"
+
+
+
+
